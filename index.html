@@ -84,9 +84,9 @@
                             <canvas id="cardiogramCanvas" class="cardiogram"></canvas>
                         </div>
                         <div id="pulseStats" class="d-flex justify-content-between">
-                            <div class="pulse-stat">Avg: <span id="avgPulse">--</span> BPM</div>
-                            <div class="pulse-stat">Min: <span id="minPulse">--</span> BPM</div>
-                            <div class="pulse-stat">Max: <span id="maxPulse">--</span> BPM</div>
+                            <div class="pulse-stat">Avg: <span id="avgPulse">--</span></div>
+                            <div class="pulse-stat">Min: <span id="minPulse">--</span></div>
+                            <div class="pulse-stat">Max: <span id="maxPulse">--</span></div>
                         </div>
                     </div>
                 </div>
@@ -98,10 +98,21 @@
                                 <canvas id="foodChart"></canvas>
                             </div>
                             <div class="centerFeeding">
-                                <button id="feedingBtn">Feeding time!</button>
-                                <div id="gearsContainer">
-                                    <img src="Images/gear.png" id="bigGear" class="hidden" alt="big gear">
-                                    <img src="Images/gear.png" id="smallGear" class="hidden" alt="small gear">
+                                <div class="buttonContainer">
+                                    <button id="feedingBtn">Feeding time!</button>
+                                    <div class="gearsContainer">
+                                        <img src="Images/gear.png" id="feedingBigGear" class="hidden" alt="big gear">
+                                        <img src="Images/gear.png" id="feedingSmallGear" class="hidden"
+                                            alt="small gear">
+                                    </div>
+                                </div>
+
+                                <div class="buttonContainer">
+                                    <button id="waterBtn">Water time!</button>
+                                    <div class="gearsContainer">
+                                        <img src="Images/gear.png" id="waterBigGear" class="hidden" alt="big gear">
+                                        <img src="Images/gear.png" id="waterSmallGear" class="hidden" alt="small gear">
+                                    </div>
                                 </div>
                             </div>
                         </div>

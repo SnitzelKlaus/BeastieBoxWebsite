@@ -1,23 +1,39 @@
 // Feeding button animation
 const feedingBtn = document.getElementById('feedingBtn');
-const bigGear = document.getElementById('bigGear');
-const smallGear = document.getElementById('smallGear');
+const feedingBigGear = document.getElementById('feedingBigGear');
+const feedingSmallGear = document.getElementById('feedingSmallGear');
+
+const waterBtn = document.getElementById('waterBtn');
+const waterBigGear = document.getElementById('waterBigGear');
+const waterSmallGear = document.getElementById('waterSmallGear');
 
 feedingBtn.addEventListener('click', () => {
-    bigGear.classList.remove('hidden');
-    smallGear.classList.remove('hidden');
-    bigGear.style.animationName = 'rotate';
-    smallGear.style.animationName = 'rotate';
+    feedingBigGear.classList.remove('hidden');
+    feedingSmallGear.classList.remove('hidden');
+    feedingBigGear.style.animationName = 'rotate';
+    feedingSmallGear.style.animationName = 'rotate';
 
     setTimeout(() => {
-        bigGear.style.animationName = '';
-        smallGear.style.animationName = '';
-        bigGear.classList.add('hidden');
-        smallGear.classList.add('hidden');
+        feedingBigGear.style.animationName = '';
+        feedingSmallGear.style.animationName = '';
+        feedingBigGear.classList.add('hidden');
+        feedingSmallGear.classList.add('hidden');
     }, 3000);
 });
 
+waterBtn.addEventListener('click', () => {
+    waterBigGear.classList.remove('hidden');
+    waterSmallGear.classList.remove('hidden');
+    waterBigGear.style.animationName = 'rotate';
+    waterSmallGear.style.animationName = 'rotate';
 
+    setTimeout(() => {
+        waterBigGear.style.animationName = '';
+        waterSmallGear.style.animationName = '';
+        waterBigGear.classList.add('hidden');
+        waterSmallGear.classList.add('hidden');
+    }, 3000);
+});
 
 
 
@@ -29,9 +45,6 @@ darkModeToggle.addEventListener('click', () => {
     darkModeToggle.classList.toggle('active');
     body.classList.toggle('dark-mode');
 });
-
-
-
 
 
 
@@ -130,6 +143,7 @@ setInterval(updatePulse, 2000); // Update pulse every 2 seconds
 // Food chart
 const foodChartElement = document.getElementById('foodChart');
 let foodData = Array(3).fill(0);
+let waterData = Array(3).fill(0);
 
 function createFoodChart() {
     return new Chart(foodChartElement, {
@@ -140,11 +154,18 @@ function createFoodChart() {
                 {
                     label: 'Food Level',
                     data: foodData,
+                    backgroundColor: 'rgba(255, 183, 0, 0.2)',
+                    borderColor: 'rgba(255, 183, 0, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Water Level',
+                    data: waterData,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
                 },
-            ]
+            ],
         },
         options: {
             scales: {
@@ -159,6 +180,12 @@ function createFoodChart() {
 
 const foodChart = createFoodChart();
 
+// Random value between min and max
+function getRandomValue(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Food
 feedingBtn.addEventListener('click', () => {
     for (let i = 0; i < foodData.length; i++) {
         foodData[i] += 10;
@@ -168,10 +195,6 @@ feedingBtn.addEventListener('click', () => {
     }
     foodChart.update();
 });
-
-function getRandomValue(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function decreaseFoodData() {
     const index = getRandomValue(0, foodData.length - 1);
@@ -183,6 +206,28 @@ function decreaseFoodData() {
     foodChart.update();
 }
 
+// Water
+waterBtn.addEventListener('click', () => {
+    for (let i = 0; i < waterData.length; i++) {
+        waterData[i] += 10;
+        if (waterData[i] > 100) {
+            waterData[i] = 100;
+        }
+    }
+    foodChart.update();
+});
+
+function decreaseWaterData() {
+    const index = getRandomValue(0, waterData.length - 1);
+    const decreaseValue = getRandomValue(1, 5);
+    waterData[index] -= decreaseValue;
+    if (waterData[index] < 0) {
+        waterData[index] = 0;
+    }
+    foodChart.update();
+}
+
+setInterval(decreaseWaterData, 2000);
 setInterval(decreaseFoodData, 2000);
 
 
