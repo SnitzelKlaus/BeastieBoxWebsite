@@ -73,21 +73,8 @@
             <div class="row equal-height">
                 <div class="col-md-6 mb-30">
                     <div class="box mb-4 full-height">
-                        <h3>Heartbeat Sensor</h3>
-                        <div class="header-container">
-                            <h5>(Poppy 1):</h5>
-                            <div class="pulse-container">
-                                <p id="pulse"><span id="pulseValue">--</span> BPM</p>
-                            </div>
-                        </div>
-                        <div id="cardiogramContainer">
-                            <canvas id="cardiogramCanvas" class="cardiogram"></canvas>
-                        </div>
-                        <div id="pulseStats" class="d-flex justify-content-between">
-                            <div class="pulse-stat">Avg: <span id="avgPulse">--</span></div>
-                            <div class="pulse-stat">Min: <span id="minPulse">--</span></div>
-                            <div class="pulse-stat">Max: <span id="maxPulse">--</span></div>
-                        </div>
+                        <h3>Heartbeat Sensors</h3>
+                        <div id="sensorContainer" class="sensor-container"></div>
                     </div>
                 </div>
                 <div class="col-md-6 mb-30">
@@ -124,7 +111,7 @@
                     <div class="box">
                         <h3>Live Camera</h3>
                         <p>Live feed from your camera: (Living Room 1)</p>
-                        <video id="liveCamera" controls loop muted>
+                        <video id="liveCamera" controls autoplay loop muted>
                             <source src="Videos/Dogs.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
