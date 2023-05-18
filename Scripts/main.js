@@ -48,6 +48,123 @@ darkModeToggle.addEventListener('click', () => {
 
 
 
+
+// Food chart
+const foodChartElement = document.getElementById('foodChart');
+var foodData = Array(3).fill(0);
+var waterData = Array(3).fill(0);
+
+function createFoodChart() {
+    return new Chart(foodChartElement, {
+        type: 'bar',
+        data: {
+            labels: ['Feeder 1', 'Feeder 2', 'Feeder 3',]
+            , datasets: [
+                {
+                    label: 'Food Level',
+                    data: foodData,
+                    backgroundColor: 'rgba(255, 183, 0, 0.2)',
+                    borderColor: 'rgba(255, 183, 0, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Water Level',
+                    data: waterData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+
+const foodChart = createFoodChart();
+
+// Random value between min and max
+function getRandomValue(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Food
+feedingBtn.addEventListener('click', () => {
+    for (var i = 0; i < foodData.length; i++) {
+        foodData[i] += 10;
+        if (foodData[i] > 100) {
+            foodData[i] = 100;
+        }
+    }
+    foodChart.update();
+});
+
+function decreaseFoodData() {
+    const index = getRandomValue(0, foodData.length - 1);
+    const decreaseValue = getRandomValue(1, 10);
+    foodData[index] -= decreaseValue;
+    if (foodData[index] < 0) {
+        foodData[index] = 0;
+    }
+    foodChart.update();
+}
+
+// Water
+waterBtn.addEventListener('click', () => {
+    for (var i = 0; i < waterData.length; i++) {
+        waterData[i] += 10;
+        if (waterData[i] > 100) {
+            waterData[i] = 100;
+        }
+    }
+    foodChart.update();
+});
+
+function decreaseWaterData() {
+    const index = getRandomValue(0, waterData.length - 1);
+    const decreaseValue = getRandomValue(1, 5);
+    waterData[index] -= decreaseValue;
+    if (waterData[index] < 0) {
+        waterData[index] = 0;
+    }
+    foodChart.update();
+}
+
+setInterval(decreaseWaterData, 2000);
+setInterval(decreaseFoodData, 2000);
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get all the necessary elements
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarMenu = document.querySelector(".navbar-collapse");
+    const menuLines = document.querySelectorAll(".navbar-toggler .line");
+
+    navbarToggler.addEventListener("click", function () {
+        navbarMenu.classList.toggle("show");
+        for (var i = 0; i < menuLines.length; i++) {
+            menuLines[i].classList.toggle('active');
+        }
+    });
+
+    // Close the menu when a link is clicked
+    navbarMenu.addEventListener("click", function (event) {
+        if (event.target.classList.contains("nav-link")) {
+            navbarMenu.classList.remove("show");
+        }
+    });
+});
+
+
+
+
 // Cardiogram animation
 // Function to create multiple heartbeat sensor elements
 function createSensorElement(sensorName) {
@@ -94,15 +211,15 @@ for (const sensorElem of sensorElements) {
     cardiogramCanvas.width = cardiogramCanvas.clientWidth;
     cardiogramCanvas.height = cardiogramCanvas.clientHeight;
 
-    let pulseValues = [];
-    let minPulseValue = Number.MAX_VALUE;
-    let maxPulseValue = Number.MIN_VALUE;
-    let sumPulseValues = 0;
-    let pulseCount = 0;
+    var pulseValues = [];
+    var minPulseValue = Number.MAX_VALUE;
+    var maxPulseValue = Number.MIN_VALUE;
+    var sumPulseValues = 0;
+    var pulseCount = 0;
 
-    let cardiogramPoints = [];
-    let cardiogramSpeed = 0.2;
-    let frequency = 6;
+    var cardiogramPoints = [];
+    var cardiogramSpeed = 0.05;
+    var frequency = 18;
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -110,7 +227,7 @@ for (const sensorElem of sensorElements) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    let counter = 0;
+    var counter = 0;
 
     function drawCardiogram() {
         ctx.clearRect(0, 0, cardiogramCanvas.width, cardiogramCanvas.height);
@@ -128,7 +245,7 @@ for (const sensorElem of sensorElements) {
         ctx.lineWidth = 2;
         ctx.beginPath();
 
-        for (let i = 1; i < cardiogramPoints.length; i++) {
+        for (var i = 1; i < cardiogramPoints.length; i++) {
             const point = cardiogramPoints[i];
 
             point.x -= cardiogramSpeed;
@@ -169,116 +286,3 @@ for (const sensorElem of sensorElements) {
     drawCardiogram(); // Initial call
     setInterval(updatePulse, 2000); // Update pulse every 2 seconds
 }
-
-// Food chart
-const foodChartElement = document.getElementById('foodChart');
-let foodData = Array(3).fill(0);
-let waterData = Array(3).fill(0);
-
-function createFoodChart() {
-    return new Chart(foodChartElement, {
-        type: 'bar',
-        data: {
-            labels: ['Feeder 1', 'Feeder 2', 'Feeder 3',]
-            , datasets: [
-                {
-                    label: 'Food Level',
-                    data: foodData,
-                    backgroundColor: 'rgba(255, 183, 0, 0.2)',
-                    borderColor: 'rgba(255, 183, 0, 1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Water Level',
-                    data: waterData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                },
-            ],
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100
-                }
-            }
-        }
-    });
-}
-
-const foodChart = createFoodChart();
-
-// Random value between min and max
-function getRandomValue(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Food
-feedingBtn.addEventListener('click', () => {
-    for (let i = 0; i < foodData.length; i++) {
-        foodData[i] += 10;
-        if (foodData[i] > 100) {
-            foodData[i] = 100;
-        }
-    }
-    foodChart.update();
-});
-
-function decreaseFoodData() {
-    const index = getRandomValue(0, foodData.length - 1);
-    const decreaseValue = getRandomValue(1, 10);
-    foodData[index] -= decreaseValue;
-    if (foodData[index] < 0) {
-        foodData[index] = 0;
-    }
-    foodChart.update();
-}
-
-// Water
-waterBtn.addEventListener('click', () => {
-    for (let i = 0; i < waterData.length; i++) {
-        waterData[i] += 10;
-        if (waterData[i] > 100) {
-            waterData[i] = 100;
-        }
-    }
-    foodChart.update();
-});
-
-function decreaseWaterData() {
-    const index = getRandomValue(0, waterData.length - 1);
-    const decreaseValue = getRandomValue(1, 5);
-    waterData[index] -= decreaseValue;
-    if (waterData[index] < 0) {
-        waterData[index] = 0;
-    }
-    foodChart.update();
-}
-
-setInterval(decreaseWaterData, 2000);
-setInterval(decreaseFoodData, 2000);
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Get all the necessary elements
-    const navbarToggler = document.querySelector(".navbar-toggler");
-    const navbarMenu = document.querySelector(".navbar-collapse");
-    const menuLines = document.querySelectorAll(".navbar-toggler .line");
-
-    navbarToggler.addEventListener("click", function () {
-        navbarMenu.classList.toggle("show");
-        for (var i = 0; i < menuLines.length; i++) {
-            menuLines[i].classList.toggle('active');
-        }
-    });
-
-    // Close the menu when a link is clicked
-    navbarMenu.addEventListener("click", function (event) {
-        if (event.target.classList.contains("nav-link")) {
-            navbarMenu.classList.remove("show");
-        }
-    });
-});
